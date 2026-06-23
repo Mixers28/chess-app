@@ -24,6 +24,9 @@ struct SquareView: View {
                 Text(piece.symbol)
                     .font(.system(size: 42))
                     .minimumScaleFactor(0.5)
+                    .foregroundStyle(piece.color == .white ? Color.white : Color.black)
+                    .shadow(color: piece.color == .white ? .black.opacity(0.85) : .white.opacity(0.5),
+                            radius: 1, x: 0, y: 1)
                     .accessibilityLabel(pieceLabel(piece))
             }
             if isLegalTarget {
