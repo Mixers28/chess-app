@@ -1,0 +1,52 @@
+name: ChessApp
+options:
+  bundleIdPrefix: com.chaosisaladder
+  deploymentTarget:
+    iOS: "17.0"
+  defaultConfig: Debug
+  xcodeVersion: "16.0"
+  swift: "6.0"
+
+packages:
+  ChessCore:
+    path: Packages/ChessCore
+
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    ENABLE_PREVIEWS: YES
+
+targets:
+  ChessApp:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - Sources/ChessApp
+    resources:
+      - Sources/ChessApp/Resources
+    dependencies:
+      - package: ChessCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.chaosisaladder.chessapp
+        PRODUCT_NAME: ChessApp
+        INFOPLIST_FILE: Sources/ChessApp/Resources/Info.plist
+        TARGETED_DEVICE_FAMILY: "1"  # iPhone only for Phase 2
+
+  ChessAppTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "17.0"
+    sources:
+      - Tests
+    dependencies:
+      - target: ChessApp
+      - package: ChessCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.chaosisaladder.chessapp.tests
+
+configs:
+  Debug: debug
+  Release: release

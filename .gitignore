@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Env / secrets
+.env
+*.local
+
+# OS
+.DS_Store
+
+# Claude Code local config
+.claude/
+
+# Xcode / Swift build artifacts
+*.xcuserstate
+xcuserdata/
+.build/
+*.o
+*.d
+*.dia
+*.swiftdeps
+*.swiftmodule
+*.swiftdoc
+*.swiftsourceinfo
+DerivedData/
+
+# Xcode project user settings (keep project.pbxproj, drop user state)
+apps/ios/ChessApp.xcodeproj/xcuserdata/
+apps/ios/ChessApp.xcodeproj/project.xcworkspace/xcuserdata/
+
+# SPM build cache
+apps/ios/Packages/**/.build/
+
+# Doc build artifacts that get regenerated
+.document-build/render-plan/*
+.document-build/render-prd/*
+.document-build/vendor/
