@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		29CD55441DB17F3F289376FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DBEED3AFCF7690F7050C1C76 /* Assets.xcassets */; };
 		43E3AFDFB28422CF2C027ABA /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD2DA07A4A45849FDFCF72 /* BoardView.swift */; };
 		67A9F6F1A7E74BE77C4E9138 /* ChessCore in Frameworks */ = {isa = PBXBuildFile; productRef = EA9ACCFF91596C2C1767539C /* ChessCore */; };
 		73F1FA2D6375D83B8F1E3F00 /* NewGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B0E2862D3B3B1B85B986CD /* NewGameView.swift */; };
@@ -48,6 +49,7 @@
 		B6634011DCAF892EDC1F6F2C /* GameListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameListView.swift; sourceTree = "<group>"; };
 		CEEB066419D60204CF0ED67C /* ErrorHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHelpers.swift; sourceTree = "<group>"; };
 		DA887964DEE646F4CFC04773 /* SquareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareView.swift; sourceTree = "<group>"; };
+		DBEED3AFCF7690F7050C1C76 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 		A5BC9745FAF4E4819F20F564 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DBEED3AFCF7690F7050C1C76 /* Assets.xcassets */,
 				27FDE7FFC84C5E925AEC41CC /* Info.plist */,
 			);
 			path = Resources;
@@ -192,6 +195,7 @@
 			buildConfigurationList = 45926417F7EF85619B77B9D6 /* Build configuration list for PBXNativeTarget "ChessApp" */;
 			buildPhases = (
 				CD53AF86242A8338DBDEA096 /* Sources */,
+				82D1557A6879BA061FC905D8 /* Resources */,
 				E1C882C25025B98044E5353A /* Frameworks */,
 			);
 			buildRules = (
@@ -239,6 +243,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		82D1557A6879BA061FC905D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				29CD55441DB17F3F289376FD /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		17A66BC30F8DC8A598B77EEE /* Sources */ = {

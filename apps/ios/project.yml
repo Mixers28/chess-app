@@ -33,6 +33,7 @@ targets:
         PRODUCT_NAME: ChessApp
         INFOPLIST_FILE: Sources/ChessApp/Resources/Info.plist
         TARGETED_DEVICE_FAMILY: "1"  # iPhone only for Phase 2
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
 
   ChessAppTests:
     type: bundle.unit-test
