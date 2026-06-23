@@ -2,14 +2,14 @@ import Foundation
 import ChessCore
 
 /// Dependency container. Injected via SwiftUI Environment.
-/// Swap APIClient's baseURL via the CHESS_API_URL env var (set in the scheme for dev).
+/// Override APIClient's baseURL via the CHESS_API_URL env var for local development.
 @Observable
 final class AppEnvironment {
     let apiClient: APIClient
 
     init() {
         let rawURL = ProcessInfo.processInfo.environment["CHESS_API_URL"]
-            ?? "http://localhost:8000"
+            ?? "https://chess-api.chaosisaladder.co.uk"
         let baseURL = URL(string: rawURL)!
         let userId = ProcessInfo.processInfo.environment["CHESS_DEV_USER_ID"]
             ?? "dev-user-ios"

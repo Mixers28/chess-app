@@ -2,17 +2,22 @@ import SwiftUI
 import ChessCore
 
 private struct Difficulty: Identifiable {
-    let id: String
+    let id: Int
     let label: String
     let description: String
-    let requiresEngine: Bool
 }
 
 private let difficulties: [Difficulty] = [
-    Difficulty(id: "random",    label: "Random",    description: "Plays any legal move at random.",              requiresEngine: false),
-    Difficulty(id: "heuristic", label: "Heuristic", description: "Prefers captures and checks. Decent warm-up.", requiresEngine: false),
-    Difficulty(id: "search",    label: "Search",    description: "Shallow alpha-beta search. Actually thinks.",  requiresEngine: false),
-    Difficulty(id: "stockfish", label: "Stockfish", description: "Full engine — requires server support.",       requiresEngine: true),
+    Difficulty(id: 1, label: "Beginner", description: "Loose, beatable play with simple mistakes."),
+    Difficulty(id: 2, label: "Casual", description: "Grabs obvious material and checks."),
+    Difficulty(id: 3, label: "Club", description: "Short search with occasional inaccuracies."),
+    Difficulty(id: 4, label: "Advanced", description: "Deeper tactics with fewer mistakes."),
+    Difficulty(id: 5, label: "Expert", description: "Strong built-in search."),
+    Difficulty(id: 6, label: "Engine 1", description: "Entry-level Stockfish when available."),
+    Difficulty(id: 7, label: "Engine 2", description: "Faster, sharper engine play."),
+    Difficulty(id: 8, label: "Engine 3", description: "Stronger Stockfish settings."),
+    Difficulty(id: 9, label: "Engine 4", description: "High-strength engine play."),
+    Difficulty(id: 10, label: "Master", description: "The strongest configured engine level."),
 ]
 
 struct NewGameView: View {
@@ -20,7 +25,7 @@ struct NewGameView: View {
 
     @Environment(\.dismiss) private var dismiss
     @State private var mode = "local"
-    @State private var selectedDifficulty = difficulties[1]   // heuristic default
+    @State private var selectedDifficulty = difficulties[2]   // Club default
     @State private var color = "white"
     @State private var isCreating = false
 
@@ -48,11 +53,7 @@ struct NewGameView: View {
                     } header: {
                         Text("Difficulty")
                     } footer: {
-                        if selectedDifficulty.requiresEngine {
-                            Label("Stockfish must be installed on the server.", systemImage: "exclamationmark.triangle")
-                                .font(.caption)
-                                .foregroundStyle(.orange)
-                        }
+                        Text("Higher engine levels use Stockfish when the server has it, otherwise the strongest built-in search is used.")
                     }
 
                     Section("Play as") {
@@ -77,7 +78,8 @@ struct NewGameView: View {
                         Task {
                             await onCreate(CreateGameRequest(
                                 mode: mode,
-                                difficulty: selectedDifficulty.id,
+                                difficulty: "level",
+                                level: selectedDifficulty.id,
                                 color: color
                             ))
                             dismiss()
@@ -108,10 +110,10 @@ private struct DifficultyRow: View {
                         Text(difficulty.label)
                             .font(.body)
                             .foregroundStyle(.primary)
-                        if difficulty.requiresEngine {
+                        if difficulty.id >= 6 {
                             Image(systemName: "cpu")
                                 .font(.caption)
-                                .foregroundStyle(.orange)
+                                .foregroundStyle(.secondary)
                         }
                     }
                     Text(difficulty.description)

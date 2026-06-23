@@ -108,21 +108,38 @@ public struct MoveGenerator: Sendable {
             if let p = board[t.index], p.color == color { return nil }
             return t
         }
-        // Castling (simplified — only adds the squares; check/blocking is filtered by leavesKingInCheck)
+        // Castling: include only fully legal castle targets so the UI does not
+        // advertise moves the authoritative server will reject.
         let backRank = color == .white ? 0 : 7
-        if sq == Square(file: 4, rank: backRank) {
+        if sq == Square(file: 4, rank: backRank), !isInCheck(board: board, color: color) {
             let kSide = color == .white ? "K" : "k"
             let qSide = color == .white ? "Q" : "q"
+            let opp = opponent(of: color)
             if castlingRights.contains(kSide) {
                 let f = Square(file: 5, rank: backRank)
                 let g = Square(file: 6, rank: backRank)
-                if board[f.index] == nil && board[g.index] == nil { moves.append(g) }
+                let h = Square(file: 7, rank: backRank)
+                if board[h.index] == Piece(color: color, type: .rook),
+                   board[f.index] == nil,
+                   board[g.index] == nil,
+                   !isAttacked(square: f, by: opp, board: board),
+                   !isAttacked(square: g, by: opp, board: board) {
+                    moves.append(g)
+                }
             }
             if castlingRights.contains(qSide) {
+                let a = Square(file: 0, rank: backRank)
                 let b = Square(file: 1, rank: backRank)
                 let c = Square(file: 2, rank: backRank)
                 let d = Square(file: 3, rank: backRank)
-                if board[b.index] == nil && board[c.index] == nil && board[d.index] == nil { moves.append(c) }
+                if board[a.index] == Piece(color: color, type: .rook),
+                   board[b.index] == nil,
+                   board[c.index] == nil,
+                   board[d.index] == nil,
+                   !isAttacked(square: d, by: opp, board: board),
+                   !isAttacked(square: c, by: opp, board: board) {
+                    moves.append(c)
+                }
             }
         }
         return moves
@@ -147,13 +164,20 @@ public struct MoveGenerator: Sendable {
         guard let kingSq = (0..<64).first(where: {
             board[$0]?.type == .king && board[$0]?.color == color
         }).map(Square.init) else { return false }
-        let opp = color == .white ? PieceColor.black : .white
+        return isAttacked(square: kingSq, by: opponent(of: color), board: board)
+    }
+
+    private func isAttacked(square target: Square, by color: PieceColor, board: [Piece?]) -> Bool {
         for idx in 0..<64 {
-            guard let p = board[idx], p.color == opp else { continue }
+            guard let p = board[idx], p.color == color else { continue }
             let from = Square(idx)
-            if attacks(from: from, piece: p, to: kingSq, board: board) { return true }
+            if attacks(from: from, piece: p, to: target, board: board) { return true }
         }
         return false
+    }
+
+    private func opponent(of color: PieceColor) -> PieceColor {
+        color == .white ? .black : .white
     }
 
     private func attacks(from sq: Square, piece: Piece, to target: Square, board: [Piece?]) -> Bool {
@@ -264,13 +288,19 @@ public struct Piece: Sendable, Equatable {
     }
 
     public var symbol: String {
-        switch type {
-        case .king:   return "♚"
-        case .queen:  return "♛"
-        case .rook:   return "♜"
-        case .bishop: return "♝"
-        case .knight: return "♞"
-        case .pawn:   return "♟"
+        switch (color, type) {
+        case (.white, .king):   return "♔︎"
+        case (.white, .queen):  return "♕︎"
+        case (.white, .rook):   return "♖︎"
+        case (.white, .bishop): return "♗︎"
+        case (.white, .knight): return "♘︎"
+        case (.white, .pawn):   return "♙︎"
+        case (.black, .king):   return "♚︎"
+        case (.black, .queen):  return "♛︎"
+        case (.black, .rook):   return "♜︎"
+        case (.black, .bishop): return "♝︎"
+        case (.black, .knight): return "♞︎"
+        case (.black, .pawn):   return "♟︎"
         }
     }
 }

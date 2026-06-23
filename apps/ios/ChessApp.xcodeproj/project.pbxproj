@@ -41,11 +41,11 @@
 		4D53A907EC789505EF246ED5 /* PromotionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionView.swift; sourceTree = "<group>"; };
 		53FFCF793202FAC846869A8E /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		57D7CBC5EA4EE837C2B663E2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		72F70284C9ADC1BD1DE7D864 /* ChessAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ChessAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		72F70284C9ADC1BD1DE7D864 /* ChessAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChessAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DBD2DA07A4A45849FDFCF72 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
 		A5B0E2862D3B3B1B85B986CD /* NewGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGameView.swift; sourceTree = "<group>"; };
 		B24EAAD3514C53D526B4408A /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
-		B46B0DDCB5BD7066C37300F4 /* ChessApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ChessApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B46B0DDCB5BD7066C37300F4 /* Ladder Chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ladder Chess.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6634011DCAF892EDC1F6F2C /* GameListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameListView.swift; sourceTree = "<group>"; };
 		CEEB066419D60204CF0ED67C /* ErrorHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHelpers.swift; sourceTree = "<group>"; };
 		DA887964DEE646F4CFC04773 /* SquareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareView.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 		1AA3234E604F0803AA1AC234 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B46B0DDCB5BD7066C37300F4 /* ChessApp.app */,
+				B46B0DDCB5BD7066C37300F4 /* Ladder Chess.app */,
 				72F70284C9ADC1BD1DE7D864 /* ChessAppTests.xctest */,
 			);
 			name = Products;
@@ -207,7 +207,7 @@
 				EA9ACCFF91596C2C1767539C /* ChessCore */,
 			);
 			productName = ChessApp;
-			productReference = B46B0DDCB5BD7066C37300F4 /* ChessApp.app */;
+			productReference = B46B0DDCB5BD7066C37300F4 /* Ladder Chess.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -217,9 +217,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1600;
-				TargetAttributes = {
-				};
+				LastUpgradeCheck = 2650;
 			};
 			buildConfigurationList = AE3044FCCA4B51B469A85308 /* Build configuration list for PBXProject "ChessApp" */;
 			developmentRegion = en;
@@ -297,16 +295,24 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = CCQNLNZKFG;
 				INFOPLIST_FILE = Sources/ChessApp/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Ladder Chess";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chaosisaladder.chessapp;
-				PRODUCT_NAME = ChessApp;
+				PRODUCT_NAME = "Ladder Chess";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -348,6 +354,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -361,6 +368,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 6.0;
@@ -405,6 +413,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -425,6 +434,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 6.0;
@@ -443,8 +453,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.chaosisaladder.chessapp.tests;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ChessApp.app/ChessApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ladder Chess.app/Ladder Chess";
 			};
 			name = Release;
 		};
@@ -460,8 +474,12 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.chaosisaladder.chessapp.tests;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ChessApp.app/ChessApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ladder Chess.app/Ladder Chess";
 			};
 			name = Debug;
 		};
@@ -470,16 +488,24 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = CCQNLNZKFG;
 				INFOPLIST_FILE = Sources/ChessApp/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Ladder Chess";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.chaosisaladder.chessapp;
-				PRODUCT_NAME = ChessApp;
+				PRODUCT_NAME = "Ladder Chess";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -493,7 +519,7 @@
 				25D56E0A1E49EB0FFAC1DBBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		96921B9312B591559FB2A94D /* Build configuration list for PBXNativeTarget "ChessAppTests" */ = {
 			isa = XCConfigurationList;
@@ -502,7 +528,7 @@
 				6102A0E25F9F511168250966 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		AE3044FCCA4B51B469A85308 /* Build configuration list for PBXProject "ChessApp" */ = {
 			isa = XCConfigurationList;
@@ -511,7 +537,7 @@
 				34D6B454DB3229F78B41186D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

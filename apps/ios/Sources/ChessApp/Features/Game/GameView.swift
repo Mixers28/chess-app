@@ -34,12 +34,18 @@ struct GameView: View {
 }
 
 private struct GameScreen: View {
+    private let aiUserId = "00000000-0000-0000-0000-0000000000a1"
+
     @Bindable var vm: GameViewModel
 
     private var server: GameState { vm.screenState.server }
     private var local: LocalInteraction { vm.screenState.local }
 
     private var isAIGame: Bool { server.mode == "ai" }
+    private var isAITurn: Bool {
+        (server.turn == "white" && server.whiteUserId == aiUserId) ||
+        (server.turn == "black" && server.blackUserId == aiUserId)
+    }
     private var flipped: Bool { false }   // TODO: flip for black in Phase 4
 
     private var selectedSquare: Square? {
@@ -87,7 +93,7 @@ private struct GameScreen: View {
                 .font(.subheadline.weight(.medium))
                 .foregroundStyle(.secondary)
             Spacer()
-            if isAIGame && server.status == "active" && server.turn != "white" {
+            if isAIGame && server.status == "active" && isAITurn {
                 Button("Retry AI") { vm.retryAIMove() }
                     .font(.caption)
                     .buttonStyle(.bordered)
@@ -175,15 +181,24 @@ private struct GameScreen: View {
 
     private var statusText: String {
         switch server.status {
-        case "finished":
-            switch server.result {
-            case "1-0":      return "White wins"
-            case "0-1":      return "Black wins"
-            case "1/2-1/2":  return "Draw"
-            default:         return "Game over"
-            }
+        case "checkmate":
+            return winnerStatusText("wins by checkmate")
+        case "stalemate":
+            return "Draw by stalemate"
+        case "draw":
+            return "Draw"
+        case "resigned":
+            return winnerStatusText("wins by resignation")
         default:
             return "\(server.turn.capitalized) to move"
+        }
+    }
+
+    private func winnerStatusText(_ suffix: String) -> String {
+        switch server.result {
+        case "1-0": return "White \(suffix)"
+        case "0-1": return "Black \(suffix)"
+        default: return "Game over"
         }
     }
 }

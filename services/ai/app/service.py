@@ -35,7 +35,7 @@ class MoveService:
             uci=chosen.move.uci(),
             san=board.san(chosen.move),
             difficulty=req.difficulty,
-            engine=bot.name,
+            engine=chosen.engine or bot.name,
             evaluation=chosen.evaluation,
             depth=chosen.depth,
             think_ms=think_ms,

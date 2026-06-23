@@ -4,6 +4,7 @@ import chess
 import pytest
 
 from app.bots.heuristic_bot import HeuristicBot
+from app.bots.level_bot import LevelBot
 from app.bots.random_bot import RandomBot
 from app.bots.search_bot import SearchBot
 from app.schemas import Constraints
@@ -44,3 +45,17 @@ async def test_search_depth_respects_constraint(depth: int) -> None:
     chosen = await SearchBot().choose(board, Constraints(max_depth=depth), None)
     assert chosen.depth == depth
     assert chosen.move in board.legal_moves
+
+
+async def test_level_bot_uses_beginner_random_level() -> None:
+    board = chess.Board()
+    chosen = await LevelBot().choose(board, Constraints(), 1)
+    assert chosen.move in board.legal_moves
+    assert chosen.depth is None
+
+
+async def test_level_bot_high_level_falls_back_to_search_without_stockfish() -> None:
+    board = chess.Board()
+    chosen = await LevelBot(stockfish=None).choose(board, Constraints(), 10)
+    assert chosen.move in board.legal_moves
+    assert chosen.depth == 4

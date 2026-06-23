@@ -16,7 +16,7 @@ public struct GameState: Codable, Sendable, Equatable, Identifiable {
     public let sequence: Int
     public let fen: String
     public let turn: String          // "white" | "black"
-    public let status: String        // "active" | "finished"
+    public let status: String        // "active" | "checkmate" | "stalemate" | "draw" | "resigned"
     public let result: String?       // "1-0" | "0-1" | "1/2-1/2"
     public let lastMove: LastMove?
     public let whiteUserId: String

@@ -15,6 +15,7 @@ class ChosenMove:
     move: chess.Move
     evaluation: float | None = None  # pawns, from side-to-move POV
     depth: int | None = None
+    engine: str | None = None
 
 
 class Bot(ABC):

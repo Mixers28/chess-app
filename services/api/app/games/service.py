@@ -141,10 +141,11 @@ class GameService:
         game.sequence = ply
         game.status = outcome.status
         game.result = outcome.result
+        await self.session.flush()
+
         if outcome.status != "active":
             game.pgn = await self._build_pgn(game)
-
-        await self.session.flush()
+            await self.session.flush()
         return self._state(game, last_move=LastMove(uci=uci, san=outcome.san))
 
     async def resign(

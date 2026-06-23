@@ -66,6 +66,39 @@ struct MoveGeneratorTests {
         #expect(targets.contains(g1))
     }
 
+    @Test("Castling is excluded when the king crosses check")
+    func castlingThroughCheckExcluded() throws {
+        let fen = "5r2/8/8/8/8/8/8/4K2R w K - 0 1"
+        let gen = try #require(MoveGenerator(fen: fen))
+        let moves = gen.legalMoves()
+        let e1 = Square(file: 4, rank: 0)
+        let g1 = Square(file: 6, rank: 0)
+        let targets = moves[e1] ?? []
+        #expect(!targets.contains(g1))
+    }
+
+    @Test("Castling is excluded while the king is in check")
+    func castlingOutOfCheckExcluded() throws {
+        let fen = "4r3/8/8/8/8/8/8/4K2R w K - 0 1"
+        let gen = try #require(MoveGenerator(fen: fen))
+        let moves = gen.legalMoves()
+        let e1 = Square(file: 4, rank: 0)
+        let g1 = Square(file: 6, rank: 0)
+        let targets = moves[e1] ?? []
+        #expect(!targets.contains(g1))
+    }
+
+    @Test("Castling is excluded when the rook is missing")
+    func castlingWithoutRookExcluded() throws {
+        let fen = "4k3/8/8/8/8/8/8/4K3 w K - 0 1"
+        let gen = try #require(MoveGenerator(fen: fen))
+        let moves = gen.legalMoves()
+        let e1 = Square(file: 4, rank: 0)
+        let g1 = Square(file: 6, rank: 0)
+        let targets = moves[e1] ?? []
+        #expect(!targets.contains(g1))
+    }
+
     @Test("Stalemate position has no legal moves")
     func stalemate() throws {
         // Classic stalemate: Black king trapped, black to move.
@@ -73,5 +106,14 @@ struct MoveGeneratorTests {
         let gen = try #require(MoveGenerator(fen: fen))
         let moves = gen.legalMoves()
         #expect(moves.isEmpty)
+    }
+
+    @Test("Piece symbols use matching white and black glyph sets")
+    func pieceSymbolsUseColorMatchedGlyphs() {
+        #expect(Piece(color: .white, type: .pawn).symbol == "♙︎")
+        #expect(Piece(color: .black, type: .pawn).symbol == "♟︎")
+        #expect(Piece(color: .white, type: .queen).symbol == "♕︎")
+        #expect(Piece(color: .black, type: .queen).symbol == "♛︎")
+        #expect(Piece(color: .black, type: .pawn).symbol.unicodeScalars.last?.value == 0xFE0E)
     }
 }

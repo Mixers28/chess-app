@@ -14,7 +14,7 @@ struct GameListView: View {
                 systemImage: "checkerboard.rectangle",
                 description: Text("Tap + to start a new game.")
             )
-            .navigationTitle("Chess")
+            .navigationTitle("Ladder Chess")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button { showNewGame = true } label: {

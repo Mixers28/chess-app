@@ -19,9 +19,18 @@ class SearchBot(Bot):
 
     name = "search"
 
-    def __init__(self, default_depth: int = 3, rng: random.Random | None = None) -> None:
+    def __init__(
+        self,
+        default_depth: int = 3,
+        rng: random.Random | None = None,
+        *,
+        blunder_rate: float = 0.0,
+        top_n: int = 1,
+    ) -> None:
         self._default_depth = default_depth
         self._rng = rng or random.Random()
+        self._blunder_rate = max(0.0, min(1.0, blunder_rate))
+        self._top_n = max(1, top_n)
 
     async def choose(
         self, board: chess.Board, constraints: Constraints, level: int | None = None
@@ -30,11 +39,13 @@ class SearchBot(Bot):
         alpha, beta = -MATE_SCORE * 2, MATE_SCORE * 2
         best_score = -MATE_SCORE * 2
         best_moves: list[chess.Move] = []
+        scored: list[tuple[int, chess.Move]] = []
 
         for move in self._ordered(board):
             board.push(move)
             score = -self._negamax(board, depth - 1, -beta, -alpha, ply=1)
             board.pop()
+            scored.append((score, move))
             if score > best_score:
                 best_score = score
                 best_moves = [move]
@@ -42,8 +53,17 @@ class SearchBot(Bot):
                 best_moves.append(move)
             alpha = max(alpha, best_score)
 
-        move = self._rng.choice(best_moves)
-        return ChosenMove(move=move, evaluation=round(best_score / 100, 2), depth=depth)
+        if self._blunder_rate > 0 and self._rng.random() < self._blunder_rate:
+            move = self._rng.choice(list(board.legal_moves))
+            score = next((s for s, m in scored if m == move), best_score)
+        elif self._top_n > 1:
+            scored.sort(key=lambda item: item[0], reverse=True)
+            candidates = scored[: self._top_n]
+            score, move = self._rng.choice(candidates)
+        else:
+            move = self._rng.choice(best_moves)
+            score = best_score
+        return ChosenMove(move=move, evaluation=round(score / 100, 2), depth=depth)
 
     def _negamax(self, board: chess.Board, depth: int, alpha: int, beta: int, ply: int) -> int:
         if board.is_checkmate():

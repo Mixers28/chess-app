@@ -23,7 +23,7 @@ async def test_difficulties_lists_baseline_only(client) -> None:
     resp = await client.get("/v1/difficulties")
     body = resp.json()
     assert body["stockfish_available"] is False
-    assert set(body["difficulties"]) == {"random", "heuristic", "search"}
+    assert set(body["difficulties"]) == {"random", "heuristic", "search", "level"}
 
 
 async def test_move_returns_legal_uci_and_san(client) -> None:
@@ -45,6 +45,16 @@ async def test_stockfish_unavailable_returns_503(client) -> None:
     resp = await client.post("/v1/move", json={"fen": START_FEN, "difficulty": "stockfish"})
     assert resp.status_code == 503
     assert resp.json()["error"] == "engine_unavailable"
+
+
+async def test_level_high_strength_falls_back_when_stockfish_unavailable(client) -> None:
+    resp = await client.post(
+        "/v1/move", json={"fen": START_FEN, "difficulty": "level", "level": 10}
+    )
+    assert resp.status_code == 200
+    body = resp.json()
+    assert body["engine"] == "search"
+    assert body["depth"] == 4
 
 
 async def test_unknown_difficulty_returns_400(client) -> None:

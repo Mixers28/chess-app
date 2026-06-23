@@ -30,7 +30,8 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.chaosisaladder.chessapp
-        PRODUCT_NAME: ChessApp
+        PRODUCT_NAME: Ladder Chess
+        INFOPLIST_KEY_CFBundleDisplayName: Ladder Chess
         INFOPLIST_FILE: Sources/ChessApp/Resources/Info.plist
         TARGETED_DEVICE_FAMILY: "1"  # iPhone only for Phase 2
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
@@ -51,3 +52,23 @@ targets:
 configs:
   Debug: debug
   Release: release
+
+schemes:
+  ChessApp:
+    build:
+      targets:
+        ChessApp: all
+    run:
+      config: Debug
+      environmentVariables:
+        CHESS_API_URL: https://chess-api.chaosisaladder.co.uk
+    test:
+      config: Debug
+      targets:
+        - ChessAppTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release

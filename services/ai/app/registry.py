@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from app.bots.base import Bot
 from app.bots.heuristic_bot import HeuristicBot
+from app.bots.level_bot import LevelBot
 from app.bots.random_bot import RandomBot
 from app.bots.search_bot import SearchBot
 from app.bots.stockfish_bot import StockfishBot
@@ -10,7 +11,7 @@ from app.engine.manager import EngineManager
 from app.errors import EngineUnavailable, UnknownDifficulty
 
 # Difficulties that always exist (pure-Python, no external engine).
-BASELINE_DIFFICULTIES = ("random", "heuristic", "search")
+BASELINE_DIFFICULTIES = ("random", "heuristic", "search", "level")
 
 
 class BotRegistry:
@@ -18,15 +19,19 @@ class BotRegistry:
 
     def __init__(self, settings: Settings, engine: EngineManager) -> None:
         self._engine = engine
+        stockfish = (
+            StockfishBot(engine, default_movetime_ms=settings.default_movetime_ms)
+            if engine.available
+            else None
+        )
         self._bots: dict[str, Bot] = {
             "random": RandomBot(),
             "heuristic": HeuristicBot(),
             "search": SearchBot(default_depth=settings.default_search_depth),
+            "level": LevelBot(stockfish=stockfish),
         }
-        if engine.available:
-            self._bots["stockfish"] = StockfishBot(
-                engine, default_movetime_ms=settings.default_movetime_ms
-            )
+        if stockfish is not None:
+            self._bots["stockfish"] = stockfish
 
     def get(self, difficulty: str) -> Bot:
         bot = self._bots.get(difficulty)

@@ -13,9 +13,9 @@ class Constraints(BaseModel):
 class MoveRequest(BaseModel):
     fen: str = Field(..., description="Position to move in, FEN")
     difficulty: str = Field(
-        default="heuristic", description="random | heuristic | search | stockfish"
+        default="heuristic", description="random | heuristic | search | level | stockfish"
     )
-    # Generic strength knob: depth for search, Skill Level (0-20) for stockfish.
+    # Generic strength knob: 1-10 for level, depth for search, Skill Level (0-20) for stockfish.
     level: int | None = Field(default=None, ge=0, le=30)
     constraints: Constraints | None = None
     # Correlation id propagated from the game service for tracing.
