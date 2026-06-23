@@ -7,8 +7,6 @@ services:
       POSTGRES_USER: chess
       POSTGRES_PASSWORD: chess
       POSTGRES_DB: chess
-    ports:
-      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -19,8 +17,6 @@ services:
 
   redis:
     image: redis:7-alpine
-    ports:
-      - "6379:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -56,8 +52,8 @@ services:
         condition: service_healthy
       chess-ai:
         condition: service_healthy
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     # Migrations are an explicit, observable step before serving.
     command: >
       sh -c "alembic upgrade head &&
